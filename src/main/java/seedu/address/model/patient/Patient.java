@@ -11,6 +11,9 @@ import java.util.Objects;
  */
 public class Patient {
 
+    // Counter for total patients
+    private static int count = 0;
+
     // Identity fields
     private final Nric nric;
     private final Name name;
@@ -31,6 +34,7 @@ public class Patient {
         requireAllNonNull(nric, name);
         this.nric = nric;
         this.name = name;
+        count++;
     }
 
     /**
@@ -46,6 +50,7 @@ public class Patient {
         this.nric = nric;
         this.name = name;
         this.status = status;
+        count++;
     }
 
     /**
@@ -61,6 +66,7 @@ public class Patient {
         this.nric = nric;
         this.name = name;
         this.ward = ward;
+        count++;
     }
 
     /**
@@ -78,17 +84,18 @@ public class Patient {
         this.name = name;
         this.status = status;
         this.ward = ward;
+        count++;
     }
 
     /**
      * Constructor for Patient taking in nric, name, status, ward.
      *
-     * @param nric        Patient NRIC
-     * @param name        Patient name
-     * @param status      Patient status
-     * @param ward        Patient ward
-     * @param discharge   Patient discharge
-     *               Every field must be present and not null.
+     * @param nric      Patient NRIC
+     * @param name      Patient name
+     * @param status    Patient status
+     * @param ward      Patient ward
+     * @param discharge Patient discharge
+     *                  Every field must be present and not null.
      */
     public Patient(Nric nric, Name name, Status status, String ward, Discharge discharge) {
         requireAllNonNull(nric, name, status, ward, discharge);
@@ -97,6 +104,7 @@ public class Patient {
         this.status = status;
         this.ward = ward;
         this.discharge = discharge;
+        count++;
     }
 
     public Nric getNric() {
@@ -110,6 +118,7 @@ public class Patient {
     public Status getStatus() {
         return status;
     }
+
     public String getStatusDesc() {
         return status.getDesc();
     }
@@ -117,8 +126,13 @@ public class Patient {
     public String getWard() {
         return ward;
     }
+
     public Discharge getDischarge() {
         return discharge;
+    }
+
+    public static int getCount() {
+        return count;
     }
 
     public void setStatus(Status newStatus) {
@@ -136,6 +150,10 @@ public class Patient {
         discharge = newDischarge;
     }
 
+    public static void resetCount() {
+        count = 0;
+    }
+
     /**
      * Returns true if both patients have the same nric and name.
      * This defines a weaker notion of equality between two patients.
@@ -146,13 +164,14 @@ public class Patient {
         }
 
         return otherPatient != null
-            && otherPatient.getNric().equals(this.getNric())
-            && otherPatient.getName().equals(this.getName());
+                && otherPatient.getNric().equals(this.getNric())
+                && otherPatient.getName().equals(this.getName());
     }
 
     /**
      * Returns true if both patients have the same nric.
-     * This defines a weaker notion of equality between two patients in order to prevent duplicate nric
+     * This defines a weaker notion of equality between two patients in order to
+     * prevent duplicate nric
      * being added to the list.
      */
     public boolean isSameNric(Patient otherPatient) {
@@ -161,7 +180,7 @@ public class Patient {
         }
 
         return otherPatient != null
-            && otherPatient.getNric().equals(this.getNric());
+                && otherPatient.getNric().equals(this.getNric());
     }
 
     /**
@@ -180,9 +199,9 @@ public class Patient {
 
         Patient otherPatient = (Patient) other;
         return otherPatient.getNric().equals(getNric())
-            && otherPatient.getName().equals(getName())
-            && otherPatient.getStatus().equals(getStatus())
-            && otherPatient.getWard().equals(getWard());
+                && otherPatient.getName().equals(getName())
+                && otherPatient.getStatus().equals(getStatus())
+                && otherPatient.getWard().equals(getWard());
     }
 
     @Override
@@ -195,14 +214,14 @@ public class Patient {
     public String toString() {
         final StringBuilder builder = new StringBuilder();
         builder.append(getNric())
-            .append("; Name: ")
-            .append(getName())
-            .append("; Status: ")
-            .append(getStatus())
-            .append("; Ward: ")
-            .append(getWard())
-            .append("; Discharge: ")
-            .append(getDischarge());
+                .append("; Name: ")
+                .append(getName())
+                .append("; Status: ")
+                .append(getStatus())
+                .append("; Ward: ")
+                .append(getWard())
+                .append("; Discharge: ")
+                .append(getDischarge());
 
         return builder.toString();
     }
